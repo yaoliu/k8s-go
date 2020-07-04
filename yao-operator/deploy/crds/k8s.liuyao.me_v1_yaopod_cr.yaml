@@ -1,0 +1,7 @@
+apiVersion: k8s.liuyao.me/v1
+kind: YaoPod
+metadata:
+  name: example-yaopod
+spec:
+  # Add fields here
+  size: 3

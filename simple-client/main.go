@@ -11,11 +11,8 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	"os"
 	"path/filepath"
+	"time"
 )
-
-func BuildConfigByContext(context string) {
-
-}
 
 func main() {
 	var kubeconfig *string
@@ -24,35 +21,22 @@ func main() {
 	} else {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	}
-	deploymentName := flag.String("deployment", "", "deployment name")
-	imageName := flag.String("image", "", "new image name")
-	//appName := flag.String("app", "app", "application name")
-
 	flag.Parse()
-	if *deploymentName == "" {
-		fmt.Println("You must specify the deployment name.")
-		os.Exit(0)
-	}
-	if *imageName == "" {
-		fmt.Println("You must specify the new image name.")
-		os.Exit(0)
-	}
-	// use the current context in kubeconfig
+
 	config, err := clientcmd.BuildConfigFromFlags("https://apiserver.demo:6443", *kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	// create the clientset
-	fmt.Println(config.Host)
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
 	}
+
 	for {
 		// get pods in all the namespaces by omitting namespace
 		// Or specify namespace to get pods in particular namespace
-		pods, err := clientset.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
+		pods, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
@@ -60,6 +44,7 @@ func main() {
 		for _, pod := range pods.Items {
 			fmt.Printf("Pod:%s Namespace:%s\n", pod.Name, pod.Namespace)
 		}
+		time.Sleep(10 * time.Second)
 		// Examples for error handling:
 		// - Use helper functions e.g. errors.IsNotFound()
 		// - And/or cast to StatusError and use its properties like e.g. ErrStatus.Message
@@ -74,7 +59,6 @@ func main() {
 		//	fmt.Printf("Found example-xxxxx pod in default namespace\n")
 		//}
 		//
-		//time.Sleep(10 * time.Second)
 	}
 	//deployment, err := clientset.AppsV1beta1().Deployments("default").Get(context.Background(), *deploymentName, metav1.GetOptions{})
 	//if err != nil {

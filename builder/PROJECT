@@ -1,0 +1,7 @@
+domain: me.liuyao
+repo: k8s-go
+resources:
+- group: infra
+  kind: VirtulMachine
+  version: v1
+version: "2"

@@ -24,7 +24,7 @@ func main() {
 	}
 	flag.Parse()
 
-	config, err := clientcmd.BuildConfigFromFlags("https://apiserver.demo:6443", *kubeconfig)
+	config, err := clientcmd.BuildConfigFromFlags("https://kubernetes.docker.internal:6443", *kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}

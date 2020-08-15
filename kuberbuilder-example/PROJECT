@@ -1,0 +1,7 @@
+domain: me.liuyao
+repo: k8s-go
+resources:
+- group: webapp
+  kind: Guestbook
+  version: v1
+version: "2"

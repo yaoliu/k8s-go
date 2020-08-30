@@ -47,7 +47,6 @@ func main() {
 	for _, d := range result.Items {
 		fmt.Println(d.Name)
 	}
-
 }
 
 func homeDir() string {

@@ -29,11 +29,11 @@ func main() {
 	}
 	oldEvent := &Event{
 		Name:    "create",
-		Type:    "error",
+		Type:    "error1",
 		Message: "create error event",
 	}
 	newData, _ := json.Marshal(newEvent)
 	oldData, _ := json.Marshal(oldEvent)
 	patch, err := strategicpatch.CreateTwoWayMergePatch(oldData, newData, newEvent)
-	fmt.Println(patch, err)
+	fmt.Println(string(patch), err)
 }

@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -36,10 +37,14 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
-
+	//创建事件消费者/事件广播器
 	eventBroadcaster := record.NewBroadcaster()
+	fmt.Println(eventBroadcaster)
+	//设置事件写入日志
 	eventBroadcaster.StartLogging(klog.Infof)
+	//设置事件上传到Kubernetes API Server
 	eventBroadcaster.StartRecordingToSink(&typedcorev1.EventSinkImpl{Interface: clientset.CoreV1().Events("")})
+	//创建事件生产者
 	recorder := eventBroadcaster.NewRecorder(scheme.Scheme, corev1.EventSource{Component: "sample-event"})
 	newPod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
@@ -62,6 +67,7 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
+	//添加一个事件信息
 	recorder.Event(pod, corev1.EventTypeNormal, "Start", "create pod event")
 	time.Sleep(10 * time.Second)
 }

@@ -66,7 +66,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers. CronJobReconciler{
+	if err = (&controllers.	CronJobReconciler{
 		Client: mgr.GetClient(),
 		Log:    ctrl.Log.WithName("controllers").WithName("CronJob"),
 		Scheme: mgr.GetScheme(),

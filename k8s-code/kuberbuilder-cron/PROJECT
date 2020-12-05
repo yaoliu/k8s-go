@@ -1,7 +1,0 @@
-domain: tutorial.kubebuilder.io
-repo: k8s-go
-resources:
-- group: batch
-  kind: CronJob
-  version: v1
-version: "2"

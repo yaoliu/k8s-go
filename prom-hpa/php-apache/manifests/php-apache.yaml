@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-apache
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: php-apache
+  template:
+    metadata:
+      labels:
+        app: php-apache
+    spec:
+      containers:
+        - name: php-apache
+          image: gcr.io/google_containers/hpa-example
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-apache
+  labels:
+    app: php-apache
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  type: NodePort
+  selector:
+    app: php-apache
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  maxReplicas: 10
+  minReplicas: 2
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-apache
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: php-apache-sts
+spec:
+  serviceName: "php-apache-sts"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: php-apache-sts
+  template:
+    metadata:
+      labels:
+        app: php-apache-sts
+    spec:
+      containers:
+        - name: php-apache-sts
+          image: gcr.io/google_containers/hpa-example
+          ports:
+            - containerPort: 80
+              name: php-apache-sts
+          resources:
+            requests:
+              cpu: 200m

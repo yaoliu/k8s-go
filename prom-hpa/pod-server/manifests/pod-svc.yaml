@@ -8,9 +8,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8080
-      targetPort: 8080
-      nodePort: 30304
+    - port: 9100
+      targetPort: 9100
+      nodePort: 39100
       protocol: TCP
   selector:
     app: go-pod-server

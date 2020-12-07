@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         app: pod-server-sts
+      annotations:
+        prometheus.io/scrape: "true"
     spec:
       containers:
         - name: go-pod-server

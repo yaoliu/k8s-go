@@ -1,0 +1,26 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-apache
+spec:
+  maxReplicas: 10
+  minReplicas: 2
+  scaleTargetRef:
+    kind: Deployment
+    name: php-apache
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 50
+    - type: Object
+      object:
+        metricName: hits-per-second
+        target:
+          kind: Service
+          name: Frontend
+        targetValue: 1k
+    - type: Pods
+      pods:
+        metricName: http_reuqests
+        targetAverageValue: "10"

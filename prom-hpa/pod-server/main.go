@@ -388,7 +388,7 @@ func main() {
 	router.Handle("/metrics", promhttp.Handler())
 	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK"))
 	})
 
 	if err := http.ListenAndServe(":9100", router); err != nil {

@@ -10,7 +10,7 @@ spec:
   ports:
     - port: 9100
       targetPort: 9100
-      nodePort: 39100
+      nodePort: 30000
       protocol: TCP
   selector:
     app: go-pod-server

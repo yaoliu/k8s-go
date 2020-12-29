@@ -29,10 +29,10 @@ spec:
         target:
           type: AverageValue
           averageValue: '10'
-  behavior:
-    scaleUp:
-      selectPolicy:
-      stabilizationWindowSeconds:
-    scaleDown:
-      stabilizationWindowSeconds:
-      selectPolicy:
+#  behavior:
+#    scaleUp:
+#      selectPolicy:
+#      stabilizationWindowSeconds:
+#    scaleDown:
+#      stabilizationWindowSeconds:
+#      selectPolicy:

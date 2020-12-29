@@ -13,7 +13,8 @@ certs: gensecret rmcerts
 gencerts:
 	@echo Generating TLS certs
 	@mkdir -p output
-	@go get -v -u github.com/cloudflare/cfssl/cmd/...
+	@export GOPROXY=https://goproxy.cn
+	@go get -v github.com/cloudflare/cfssl/cmd/...
 	@touch output/apiserver.pem
 	@touch output/apiserver-key.pem
 	@openssl req -x509 -sha256 -new -nodes -days 365 -newkey rsa:2048 -keyout $(PURPOSE)-ca.key -out $(PURPOSE)-ca.crt -subj "/CN=ca"

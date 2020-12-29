@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: podinfo
+  name: pod-server
 spec:
   scaleTargetRef:
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
-    name: podinfo
+    name: go-pod-server
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -15,5 +15,5 @@ spec:
         metric:
           name: http_requests
         target:
-          type: Value
-          value: 10m
+          type: AverageValue
+          averageValue: 100m

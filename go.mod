@@ -5,6 +5,7 @@ go 1.14
 require (
 	cloud.google.com/go v0.51.0 // indirect
 	github.com/Azure/go-autorest/autorest v0.9.6 // indirect
+	github.com/cloudflare/cfssl v1.5.0 // indirect
 	github.com/emicklei/go-restful v2.13.0+incompatible // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/gophercloud/gophercloud v0.1.0 // indirect

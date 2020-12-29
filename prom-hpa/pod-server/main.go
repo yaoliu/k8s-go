@@ -386,9 +386,13 @@ func main() {
 	router := mux.NewRouter()
 	router.Use(prom.Handler)
 	router.Handle("/metrics", promhttp.Handler())
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("OK!"))
+	})
 	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		_, _ = w.Write([]byte("OK"))
+		_, _ = w.Write([]byte("OK!"))
 	})
 
 	if err := http.ListenAndServe(":9100", router); err != nil {
